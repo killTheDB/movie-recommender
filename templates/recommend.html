@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NEW</title>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+  <style>
+    .card {
+      background-color: rgba(0, 0, 0, 0);
+    }
+    .card-btn {
+      color: white;
+    }
+    .table, .table-bordered {
+      border: none !important;
+      border-color: rgba(0, 0, 0, 0);
+    }
+    table,tr,td,thead,tbody,th {
+      border: none !important;
+    }
+    .send-mail {
+      border-radius: 40px;
+      padding: 10px;
+      cursor: pointer;
+      margin-left: 10px;
+      margin-top: 10px;
+    }
+    .divider{
+      width:10px;
+      height:auto;
+      display:inline-block;
+    }
+    #email {
+      border-radius: 20px;
+      margin-left: 25px;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+
+<body id="contentnew" style="background-color: #000000;">
+	<div class="results">
+	    <center>
+	      <h2 id="name" class="text-uppercase" style="color: rgb(209, 110, 52);">{{title}}</h2>
+	    </center>
+	</div>
+	<br>
+
+<div id="mycontent">
+    <div id="mcontent" style="margin-left: 200px;">
+      <div class="poster-lg">
+        <img class="poster" style="border-radius: 50%;border-color: #ffaa00;margin-left: 90px;" height="250" width="250" src={{poster}}>
+      </div>
+      <div class="poster-sm text-center">
+        <img class="poster" style="border-radius: 50%;border-color: #ffaa00;margin-bottom: 5%;" height="250" width="250" src={{poster}}>
+      </div>
+      <div id="details" style="margin-right: 300px;">
+        <br/>
+        <h6 id="title" style="color:white;">TITLE: &nbsp;{{title}}</h6>
+        <h6 id="vote_average" style="color:white;">RATING: &nbsp;{{vote_average}}/10 ({{vote_count}} votes)</h6>
+        <h6 id="genres" style="color:white;">GENRE: &nbsp;{{genres}}</h6>
+        <h6 id="date" style="color:white;">RELEASE DATE: &nbsp;{{release_date}}</h6>
+        <h6 id="runtime" style="color:white;">RUNTIME: &nbsp;{{runtime}}</h6>
+        <h6 id="status" style="color:white;">STATUS: &nbsp;{{status}}</h6>
+      </div>
+    </div>
+</div>
+<br/>
+<h3 id="overview" style="color:rgb(126, 174, 247);margin-left: 50px;">OVERVIEW:</h3> <h6 style="color:white;margin-left: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{overview}}</h6>
+<br>
+  
+  {% if casts|length > 1 %}
+  <div class="movie" style="color: whitesmoke;">
+    	<center>
+		<h3>TOP CAST</h3>
+	</center>
+  </div>
+
+      <div class="movie-content">
+        {% for name, details in casts.items() if not casts.hidden %}
+          <div class="castcard card" style="width: 15rem;" title="Click to know more about {{name}}" data-toggle="modal" data-target="#{{details[0]}}">
+            <div class="imghvr" style="border: none;">
+              <img class="card-img-top cast-img" height="240" width="240" alt="{{name}} - profile" src="{{details[2]}}" style="border-radius: 50%; border: 2px;border-color: black;">
+            </div>
+            <br>
+            <!-- <div class="card-body"> -->
+              <h5 class="card-title" style="color: #ffaa00;">{{name|title}}</h5>
+              <h5 class="card-title"><span style="color:whitesmoke;font-size: 20px;">Character: {{details[1]|title}}</span></h5>
+            <!-- </div> -->
+          </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <center>
+        {% if reviews %}
+        <h2 style="color:whitesmoke">USER REVIEWS</h2>
+        <div class="col-md-12" style="margin: 0 auto; margin-top:25px;">
+            <table class="table table-bordered" style="color:white;border: none;border-color: rgba(0, 0, 0, 0);">
+                <thead>
+                    <tr>
+                        <th class="text-center" scope="col" style="width: 75%">Comments</th>
+                        <th class="text-center" scope="col">Sentiments</th>
+                    </tr>
+                </thead>
+        
+                <tbody>
+              {% for review, status in reviews.items() if not reviews.hidden %}
+              <tr style="background-color:rgba(0, 0, 0, 0);">
+                      <td>{{review}}</td>
+                    <td><center>
+                        {{status}} : 
+                        {% if status =='Good' %}
+                          <!-- &#128515; -->
+                          &#128077;
+                        {% else %}
+                          <!-- &#128534; -->
+                          &#128078;
+                        {% endif %}
+                      </center>
+                    </td>
+                  </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        {% else %}
+        <div style="color:white;">
+          <h1 style="color:white"> This movie is not released yet. Stay tuned! </h1>
+        </div>
+        {% endif %}
+      </center>
+
+        {% if movie_cards|length > 1 %}
+
+
+        <div class="movie" style="color: #ffffff;">
+        <center><h3>RECOMMENDED MOVIES FOR YOU</h3><h5>(Click any of the movies to get recommendation)</h5></center>
+        </div>
+
+        <div class="movie-content">
+          {% for poster, title in movie_cards.items() if not movie_cards.hidden %}
+            <div class="card" style="width: 15rem;" title="{{title}}" onclick="recommendcard(this)">
+              <div class="imghvr">
+                <img class="card-img-top" height="360" width="240" alt="{{title}} - poster" src={{poster}}>
+                <figcaption class="fig">
+                  <button class="card-btn btn" style="background-color: #354fe7;"> Click Me </button>
+                </figcaption>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title" style="color: whitesmoke;">{{title|capitalize}}</h5>
+              </div>
+            </div>
+        {% endfor %}
+        </div>
+
+        {% endif %}
+    
+    </div>
+
+    <center><h3 style="color: #ffffff;">Send me mail</h3></center>
+    <p style="margin-left: 10px;"><h6 style="color: #ffaa00;margin-left: 10px;">Click on the genre, you are interested in we will mail you some recommendations..</h6></p>
+    <br>
+    <input type="email" id="email" name="email" placeholder="Your Email goes here" style="background-color: whitesmoke;border-color:#ffffff;width: 20%;color: black" required="required">
+    <br><br>
+    <div class="divider"></div>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('28')">Action</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('12')">Adventure</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('16')">Animation</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('35')">Comedy</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('80')">Crime</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('99')">Documentary</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('18')">Drama</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('10751')">Family</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('14')">Fantasy</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('36')">History</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('27')">Horror</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('9648')">Mystery</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('10749')">Romance</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('878')">Science Fiction</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('53')">Thriller</button>
+    <button class="send-mail" style="background-color: #354fe7;text-align: center;" onclick="mailclick('10752')">War</button>
+    
+
+    
+    <br><br>
+
+  </div>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="../static/recommend.js"></script>
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
+  <script src="../static/mail.js"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='recommend.js')}}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

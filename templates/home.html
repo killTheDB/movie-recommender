@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie Recommendation System</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- Auto Complete -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+  <script type="text/javascript">
+    var films = {{suggestions|tojson}};
+  </script>
+
+  <style>
+    #autoComplete,#autoComplete:hover {
+      background-image: none;
+    }
+    #contentnew {
+      background-image: url("../static/index.jpeg") !important;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    #loader {
+      background-image: url("../static/load.gif");
+    }
+  </style>
+
+</head>
+
+<body id="contentnew" style="font-family: 'Noto Sans JP', sans-serif; background-color:#000000">
+
+<div class="ml-container" style="display: block;">
+
+    <center><h1 style="color: #c8ff00;"> MovieDB</h1></center>
+    <div class="form-group shadow-textarea" style="margin-top: 30px;text-align: center;color: white;">
+        <input type="text" class="movie" id="autoComplete" placeholder="Enter the Movie Name" style="background-color: whitesmoke;border-color:#ffffff;width: 30%;color: black" required="required" />
+        <button class="btn btn-primary btn-block movie-button" style="background-color: #354fe7;text-align: center;border-color: #a3e509;width:120px;" disabled="true" >Search</button><br><br>
+        <br>
+    </div>
+
+</div>
+
+  <div id="loader" class="text-center">
+  </div>
+ 
+  <div class="fail">
+    <center><h3>Sorry! The movie you requested is not in our database.
+    Please check the spelling or try with other movies!</h3></center>
+  </div>
+
+<div class="results">
+    <center>
+      <h2 id="name" class="text-uppercase"></h2>
+    </center>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/js/autoComplete.min.js"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='autocomplete.js')}}"></script>
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
+  <script src="../static/mail.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='recommend.js')}}"></script>
+
+</body>
+</html>
