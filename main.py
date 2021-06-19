@@ -93,6 +93,7 @@ def recommend():
     #cast_places = request.form['cast_places']
     cast_profiles = request.form['cast_profiles']
     imdb_id = request.form['imdb_id']
+    tmdb_id = request.form['tmdb_id']
     poster = request.form['poster']
     genres = request.form['genres']
     overview = request.form['overview']
@@ -156,7 +157,7 @@ def recommend():
         movie_reviews = {reviews_list[i]: reviews_status[i] for i in range(len(reviews_list))}     
 
     # passing all the data to the html file
-    return render_template('recommend.html',title=title,poster=poster,overview=overview,vote_average=vote_average,
+    return render_template('recommend.html',title=title,tmdb_id=tmdb_id,poster=poster,overview=overview,vote_average=vote_average,
         vote_count=vote_count,release_date=release_date,runtime=runtime,status=status,genres=genres,
         movie_cards=movie_cards,reviews=movie_reviews,casts=casts)
 

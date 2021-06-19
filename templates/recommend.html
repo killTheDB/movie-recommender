@@ -48,6 +48,13 @@
       margin-left: 25px;
       margin-top: 2px;
     }
+    #mcontent {
+      margin-left: 50px !important;
+    }
+    #trailer {
+      border: none !important;
+      border-color: none !important;
+    }
   </style>
 </head>
 
@@ -62,20 +69,24 @@
 <div id="mycontent">
     <div id="mcontent" style="margin-left: 200px;">
       <div class="poster-lg">
-        <img class="poster" style="border-radius: 50%;border-color: #ffaa00;margin-left: 90px;" height="250" width="250" src={{poster}}>
+        <img class="poster" style="border-radius: 50%;border-color: #ffaa00;" height="250" width="250" src={{poster}}>
       </div>
       <div class="poster-sm text-center">
         <img class="poster" style="border-radius: 50%;border-color: #ffaa00;margin-bottom: 5%;" height="250" width="250" src={{poster}}>
       </div>
-      <div id="details" style="margin-right: 300px;">
+      <div id="details">
         <br/>
-        <h6 id="title" style="color:white;">TITLE: &nbsp;{{title}}</h6>
-        <h6 id="vote_average" style="color:white;">RATING: &nbsp;{{vote_average}}/10 ({{vote_count}} votes)</h6>
-        <h6 id="genres" style="color:white;">GENRE: &nbsp;{{genres}}</h6>
-        <h6 id="date" style="color:white;">RELEASE DATE: &nbsp;{{release_date}}</h6>
-        <h6 id="runtime" style="color:white;">RUNTIME: &nbsp;{{runtime}}</h6>
-        <h6 id="status" style="color:white;">STATUS: &nbsp;{{status}}</h6>
+        <h6 id="title" style="color:white;">TITLE:  {{title}}</h6>
+        <h6 id="vote_average" style="color:white;">RATING:  {{vote_average}}/10 ({{vote_count}} votes)</h6>
+        <h6 id="genres" style="color:white;">GENRE:  {{genres}}</h6>
+        <h6 id="date" style="color:white;">RELEASE DATE:  {{release_date}}</h6>
+        <h6 id="runtime" style="color:white;">RUNTIME:  {{runtime}}</h6>
+        <h6 id="status" style="color:white;">STATUS:  {{status}}</h6>
+        <h6 id="tmdbid" style="color:white;">TMDB ID:  {{tmdb_id}}</h6>
+        <button class="seeTrailer" style="border-radius: 20px;background-color: #eb4614;text-align: center;" onclick="displayTrailer()">Watch Trailer</button>
       </div>
+      <script src="../static/recommend.js"></script>
+      <iframe id="trailer" width="500" height="350" src=""></iframe>
     </div>
 </div>
 <br/>
@@ -199,9 +210,41 @@
     <br><br>
 
   </div>
-  
+  <script>
+  function displayTrailer() {
+    var tid = document.getElementById('tmdbid').innerHTML;
+    tid = tid.substring(10);
+    var my_api_key = 'fc09ea6f58038cf03cfaac0555c7b099';
+
+  $.ajax({
+    type: 'GET',
+    url:'https://api.themoviedb.org/3/movie/'+tid+'/videos?api_key='+my_api_key+'&language=en-US',
+
+    success: function(trailer){
+      if(trailer.results.length<1){
+        alert('Trailer cant be displayed');
+      }
+      else{
+        var trailer_id = trailer.results[0].key;
+        console.log(trailer_id);
+        document.getElementById('trailer').src = "https://www.youtube.com/embed/"+trailer_id+"?autoplay=1";
+        // var movie_title = movie.results[0].original_title;
+        // console.log(movie_id)
+        // console.log(movie_title)
+        // alert(movie_id+movie_title);
+      }
+    },
+    error: function(){
+      alert('Invalid Trailer Request');
+    },
+  });
+    // var tid = '2LqzF5WauAw';
+    // document.getElementById('trailer').src = "https://www.youtube.com/embed/"+tid;
+
+}
+
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="../static/recommend.js"></script>
   <script src="https://smtpjs.com/v3/smtp.js"></script>
   <script src="../static/mail.js"></script>
   <script type="text/javascript" src="{{url_for('static', filename='recommend.js')}}"></script>

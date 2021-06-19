@@ -53,6 +53,7 @@ function load_details(my_api_key,title){
         // console.log(movie_title)
         // alert(movie_id+movie_title);
         movie_recs(movie_title,movie_id,my_api_key);
+        // trailer_display(movie_id);
       }
     },
     error: function(){
@@ -61,6 +62,33 @@ function load_details(my_api_key,title){
     },
   });
 }
+
+// function trailer_display(id) {
+//   var my_api_key = 'fc09ea6f58038cf03cfaac0555c7b099';
+
+//   $.ajax({
+//     type: 'GET',
+//     url:'https://api.themoviedb.org/3/movie/'+id+'/videos?api_key='+my_api_key+'&language=en-US',
+
+//     success: function(trailer){
+//       if(trailer.results.length<1){
+//         alert('Trailer cant be displayed');
+//       }
+//       else{
+//         var trailer_id = trailer.results[0].key;
+//         console.log(trailer_id);
+//         document.getElementById('trailer').src = "https://www.youtube.com/embed/"+trailer_id;
+//         // var movie_title = movie.results[0].original_title;
+//         // console.log(movie_id)
+//         // console.log(movie_title)
+//         // alert(movie_id+movie_title);
+//       }
+//     },
+//     error: function(){
+//       alert('Invalid Trailer Request');
+//     },
+//   });
+// }
 
 // passing the movie name to get the similar movies from python's flask
 function movie_recs(movie_title,movie_id,my_api_key){
@@ -110,6 +138,7 @@ function get_movie_details(movie_id,my_api_key,arr,movie_title) {
 // passing all the details to python's flask for displaying and scraping the movie reviews using imdb id
 function show_details(movie_details,arr,movie_title,my_api_key,movie_id){
   var imdb_id = movie_details.imdb_id;
+  var tmdb_id = movie_id;
   var poster = 'https://image.tmdb.org/t/p/original'+movie_details.poster_path;
   var overview = movie_details.overview;
   var genres = movie_details.genres;
@@ -145,6 +174,7 @@ function show_details(movie_details,arr,movie_title,my_api_key,movie_id){
       'cast_bios':JSON.stringify(ind_cast.cast_bios),
       'cast_places':JSON.stringify(ind_cast.cast_places),
       'imdb_id':imdb_id,
+      'tmdb_id':tmdb_id,
       'poster':poster,
       'genres':my_genre,
       'overview':overview,
