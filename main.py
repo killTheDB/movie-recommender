@@ -151,8 +151,8 @@ def recommend():
             reviews_status.append('Good' if pred else 'Bad')
 
     # combining reviews and comments into a dictionary
-    if len(reviews_list) > 5:
-        movie_reviews = {reviews_list[i]: reviews_status[i] for i in range(5)}     
+    if len(reviews_list) > 10:
+        movie_reviews = {reviews_list[i]: reviews_status[i] for i in range(10)}     
     else:
         movie_reviews = {reviews_list[i]: reviews_status[i] for i in range(len(reviews_list))}     
 
